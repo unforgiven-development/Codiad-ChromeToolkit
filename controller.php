@@ -34,11 +34,6 @@
 			$chrome->addChromeManifest();
 			break;
 
-		case 'editChromeManifest':
-			$chrome->projectName = trim($_GET['projectName']);
-			$chrome->editChromeManifest();
-			break;
-
 		case 'buildDownloadZipFile':
 			$chrome->projectName = trim($_GET['projectName']);
 			$chrome->buildDownloadZipFile();

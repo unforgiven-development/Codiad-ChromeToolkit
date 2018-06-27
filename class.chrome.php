@@ -31,7 +31,7 @@ class Chrome extends Common {
 		$data = str_replace('{{projectName}}',$this->projectName,$data);
 		file_put_contents($dest . '/manifest.json',$data);
 	}
-	
+
 	public function initTemplate($dest) {
 		$data = file_get_contents($dest . '/index.html');
 		$data = str_replace('{{projectName}}',$this->projectName,$data);
@@ -53,7 +53,7 @@ class Chrome extends Common {
 		}
 		file_put_contents($dest . '/index.html',$data);
 	}
-	
+
 	// Create a new project
     public function createNewProject() {
     	// openlog("ChromeToolkit", LOG_NDELAY, LOG_USER);
@@ -94,7 +94,8 @@ class Chrome extends Common {
         }
         // closelog();
     }
-    
+
+
 	// Add a Chrome manifest in a existing project
 	public function addChromeManifest() {
 		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
@@ -115,17 +116,6 @@ class Chrome extends Common {
 	}
 
 
-	/* Edit the Chrome manifest file */
-	public function editChromeManifest() {
-		/* Ensure that a manifest file is present in the root directory of the project */
-		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
-			echo formatJSEND("success", array("message" => "Chrome Manifest file editor is not yet implemented."));
-		} else {
-			echo '{"status":"error","message":"No manifest file found in project"}';
-		}
-	}
-
-
 	// Create and download a ZIP file, suitable for publishing to the Chrome Web Store
 	public function buildDownloadZipFile() {
 		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
@@ -136,8 +126,8 @@ class Chrome extends Common {
 			echo '{"status":"error","message":"No manifest file found in project"}';
 		}
 	}
-    
-    
+
+
     // Build a self signed CRX
     public function buildSelfSignedCRX() {
     	if(file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {

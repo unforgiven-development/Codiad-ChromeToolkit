@@ -1,8 +1,8 @@
 [{
-    "author": "Olivier Auverlot",
-    "version": "1.0.2",
+    "author": "Olivier Auverlot, Gerad Munsch",
+    "version": "1.0.3",
     "name": "Chrome Toolkit",
-    "url": "https://github.com/olivierauverlot/Codiad-ChromeToolkit",
+    "url": "https://github.com/unforgiven-development/Codiad-ChromeToolkit",
     "config": [{
         "file": "dialog_settings.php",
         "icon": "icon-list-add",
