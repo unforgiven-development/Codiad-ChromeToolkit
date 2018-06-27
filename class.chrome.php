@@ -9,6 +9,8 @@
 require_once('../../common.php');
 require_once('./lib/phpqrcode.php');
 require_once('./lib/class.crx.php');
+require_once('./lib/class.zip.php');
+
 
 class Chrome extends Common {
 
@@ -58,8 +60,10 @@ class Chrome extends Common {
     	// syslog(LOG_NOTICE, "Something has happened");
 		if($this->projectName != '') {
 			$dest = WORKSPACE . '/' . $this->projectName;
-			if(!file_exists($dest)) {
+
+			if (!file_exists($dest)) {
 				shell_exec("mkdir " . $dest);
+
 				switch ($this->projectType) {
 					case 'jsChromeOSApp':
 						shell_exec('cp -r ' . PLUGINS . '/Codiad-ChromeToolkit-master/templates/CrOSJSApp/* ' . $dest);
@@ -74,9 +78,11 @@ class Chrome extends Common {
 						shell_exec('cp -r ' . PLUGINS . '/Codiad-ChromeToolkit-master/templates/JSWebApp/* ' . $dest);
 						break;
 				}
-				if($this->projectType == 'jsChromeOSApp' || $this->projectType == 'jsChromeExt') {
+
+				if ($this->projectType == 'jsChromeOSApp' || $this->projectType == 'jsChromeExt') {
 					$this->initManifest($dest);
 				}
+
 				$this->initTemplate($dest);
 				$this->addProject();
 				echo formatJSEND("success",array("message"=>"Project created"));
@@ -89,20 +95,48 @@ class Chrome extends Common {
         // closelog();
     }
     
-    // Add a Chrome manifest in a existing project
-    public function addChromeManifest() {
-    	if($this->projectName != '') {
-    		$source = PLUGINS . '/Codiad-ChromeToolkit-master/templates/CrOSJSApp/manifest.json';
-			$dest = WORKSPACE . '/' . $this->projectName;
-			$ret = copy($source,($dest . '/manifest.json'));
-			if($ret) {
-				$this->initManifest($dest);
-				echo formatJSEND("success",array("message"=>"Manifest added"));
-			} else {
-				echo '{"status":"error","message":"Can\'t add manifest"}';
+	// Add a Chrome manifest in a existing project
+	public function addChromeManifest() {
+		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
+			echo '{"status":"error","message":"This project already has a Chrome manifest file"';
+		} else {
+			if ($this->projectName != '') {
+				$source = PLUGINS . '/Codiad-ChromeToolkit-master/templates/CrOSJSApp/manifest.json';
+				$dest = WORKSPACE . '/' . $this->projectName;
+				$ret = copy($source, ($dest . '/manifest.json'));
+				if ($ret) {
+					$this->initManifest($dest);
+					echo formatJSEND("success",array("message"=>"Chrome manifest file was added to project"));
+				} else {
+					echo '{"status":"error","message":"Can\'t add manifest to project"}';
+				}
 			}
-    	}
-    }
+		}
+	}
+
+
+	/* Edit the Chrome manifest file */
+	public function editChromeManifest() {
+		/* Ensure that a manifest file is present in the root directory of the project */
+		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
+			echo formatJSEND("success", array("message" => "Chrome Manifest file editor is not yet implemented."));
+		} else {
+			echo '{"status":"error","message":"No manifest file found in project"}';
+		}
+	}
+
+
+	// Create and download a ZIP file, suitable for publishing to the Chrome Web Store
+	public function buildDownloadZipFile() {
+		if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
+			$zipbuilder = new ChromeZipBuilder($this->projectName);
+			$zipbuilder->getZIP();
+			echo formatJSEND("success", array("message" => "Chrome Web Store ZIP package created"));
+		} else {
+			echo '{"status":"error","message":"No manifest file found in project"}';
+		}
+	}
+    
     
     // Build a self signed CRX
     public function buildSelfSignedCRX() {

@@ -1,0 +1,59 @@
+/*
+    // Create and download a ZIP file, suitable for publishing to the Chrome Web Store
+    public function buildDownloadZipFile() {
+    	if (file_exists(WORKSPACE . '/' . $this->projectName . '/manifest.json')) {
+    		if (isset($_GET['type']) && ($_GET['type']=='directory' || $_GET['type']=='root')) {
+//    			$filename = explode("/", $_GET['path']);
+//    			$filename = array_pop($filename) . "-" . date('Y.m.d');
+
+				// Create filename from project name
+				$filename = $this->projectName;
+				$filename .= "-" . date('Y.m.d');
+
+				$targetPath = DATA . '/';
+				$dir = WORKSPACE . '/' . $_GET['path'];
+
+				// Check that the directory _actually_ exists...
+				if (!is_dir($dir)) {
+					exit('<script>parent.codiad.message.error("Directory not found.")</script>');
+				}
+				
+				// Check that the PHP "ZIP" extension is loaded/available
+				if (extension_loaded('zip')) {
+					// build zipfile
+					require_once 'class.dirzip.php';
+
+					$filename .= '.zip';
+					$download_file = $targetPath.$filename;
+					DirZip::zipDir($dir, $targetPath .$filename);
+				} else {
+					// Exit with an error if the PHP ZIP extension is missing...
+					exit('<script>parent.codiad.message.error("Could not pack the folder, zip-extension missing")</script>');
+				}
+    		}
+    		
+    		// Download the generated file
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+			header('Content-Transfer-Encoding: binary');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($download_file));
+
+			if (ob_get_contents()) {
+				ob_end_clean();
+			}
+
+			flush();
+			readfile($download_file);
+
+			// Remove the temporary ZIP file
+			if ($_GET['type'] == 'directory' || $_GET['type'] == 'root') {
+				unlink($download_file);
+			}
+	
+    	}
+    }
+*/

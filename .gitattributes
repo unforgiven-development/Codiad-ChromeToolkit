@@ -1,0 +1,58 @@
+#
+# .gitattributes
+#
+
+## General ("Catch-All") ##
+*									text=auto
+
+## WEB ##
+*.php								text diff=php
+*.js								text
+*.json								text
+*.css								text diff=css
+*.htm								text diff=html
+*.html								text diff=html
+*.xhtml								text diff=html
+*.cgi								text eol=lf diff=perl
+*.xml								text
+*.xsd								text
+*.xslt								text
+
+
+## SOURCE CODE ##
+*.c									text diff=cpp
+*.h									text diff=cpp
+*.cc								text diff=cpp
+*.hh								text diff=cpp
+*.cpp								text diff=cpp
+*.hpp								text diff=cpp
+*.cxx								text diff=cpp
+*.hxx								text diff=cpp
+*.cs								text eol=crlf diff=csharp
+
+
+## SCRIPTS ##
+*.sh								text eol=lf
+*.bat								text eol=crlf
+*.py								text diff=py
+*.pl								text diff=perl
+
+
+## PLAIN TEXT ##
+*.txt								text eol=crlf
+
+
+## MARKUP ##
+*.md								text eol=crlf
+*.mkdn								text eol=crlf
+*.markdown							text eol=crlf
+*.tex								text diff=tex
+
+
+## IMAGES ##
+*.png								binary
+*.jpg								binary
+*.jpeg								binary
+*.gif								binary
+*.webp								binary
+*.svg								text
